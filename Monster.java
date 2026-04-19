@@ -24,7 +24,7 @@ public class Monster {
         Random rand = new Random();
 
         int hp = (int) (player.HP * 0.6);
-        int attack = player.HP;
+        int attack = player.attack + rand.nextInt(-2, 2);
         if (attack < 1)
             attack = 1;
 
