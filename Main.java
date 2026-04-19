@@ -3,6 +3,19 @@ import java.util.Random;
 
 public class Main {
 
+    public static void showHelper(){
+        System.out.println("\n==== perintah yang tersedia ====");
+        System.out.println("w: atas");
+        System.out.println("s: bawah");
+        System.out.println("a: kiri");
+        System.out.println("d: kanan");
+        System.out.println("stats : melihat statistik player");
+        System.out.println("inventory : mengecek inventory");
+        System.out.println("use : menggunakan item");
+        System.out.println("exit : keluar dari permainan ");
+
+    }
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         Player player = new Player();
@@ -12,6 +25,7 @@ public class Main {
         int result = 0;
         String eventMessage = "";
 
+        
         while (running) {
             try {
                 ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "cls");
@@ -21,6 +35,8 @@ public class Main {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            
+            System.out.println("--- ketik help untuk melihat perintah yang ada ---");
 
             // render dulu
             map.render(player);
@@ -37,8 +53,16 @@ public class Main {
                 System.out.println(eventMessage);
             }
 
-            System.out.print("gerakkan player : ");
+            System.out.print("masukkan perintah : ");
             String direction = input.nextLine();
+            
+              // cek kalau user mau melihat stats nya
+            if (direction.equalsIgnoreCase("help")) {
+                showHelper();
+                System.out.print("\n(tekan ENTER untuk kembali)");
+                input.nextLine();
+                continue;
+            }
 
             // cek kalau user mau melihat stats nya
             if (direction.equalsIgnoreCase("stats")) {
@@ -62,7 +86,9 @@ public class Main {
                 System.out.println("=== anda keluar dari permainan ===");
                 break;
             }
-            eventMessage = "";
+
+
+            eventMessage = ""; // kosongkan pesan setelah di tampilkan sebelumnya
 
             // cek kalau user mau menggunakan item didalam inventory
             if (direction.equalsIgnoreCase("use")) {
@@ -80,7 +106,7 @@ public class Main {
                 continue;
             }
 
-            result = player.move(direction, map);
+            result = player.move(direction, map); // gerakkan player
 
             // jalankan event tertentu jika berhasil jalan
             if (result == 0) {
